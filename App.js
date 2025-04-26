@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>🚀 Updated Mobile Horizon v0.0.2 🚀</Text>
+      <Text>🚀 Updated Mobile Horizon v0.0.3 🚀</Text>
       <StatusBar style="auto" />
     </View>
   );
