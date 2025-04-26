@@ -90,7 +90,23 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>🚀 Mobile Horizon v0.0.4 🚀</Text>
+      <View
+        style={{ marginVertical: 30, padding: 20, backgroundColor: "#ffeecc" }}
+      >
+        <Text style={{ fontSize: 22, color: "black", textAlign: "center" }}>
+          🎉 This is the NEW OTA Update! 🎉
+        </Text>
+        <Text
+          style={{
+            marginTop: 10,
+            fontSize: 16,
+            color: "gray",
+            textAlign: "center",
+          }}
+        >
+          If you see this box, OTA updates are working!
+        </Text>
+      </View>
       <StatusBar style="auto" />
       <Text style={styles.status}>
         {isChecking
