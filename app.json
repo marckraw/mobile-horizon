@@ -38,7 +38,10 @@
     "updates": {
       "url": "https://u.expo.dev/dd3394a4-c888-4668-974e-78bcf43f6019",
       "enabled": true,
-      "fallbackToCacheTimeout": 0
-    }
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD",
+      "channel": "preview"
+    },
+    "channel": "preview"
   }
 }
