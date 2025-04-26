@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>🚀 Mobile Horizon v0.0.3 🚀</Text>
+      <Text>🚀 Mobile Horizon v0.0.4 🚀</Text>
       <StatusBar style="auto" />
       <Text style={styles.status}>
         {isChecking

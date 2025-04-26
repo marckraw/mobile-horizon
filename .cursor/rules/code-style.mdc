@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# JavaScript/TypeScript Code Style
+
+## Core Principles
+- Always use closure-based functions for services, NEVER use classes
+- Follow functional programming patterns
+- Maintain immutability where possible
+
+## Service Pattern
+Services should always follow the closure pattern:
+
+```javascript
+// ✅ Correct - Closure-based service pattern
+export const createMyService = ({ dependency1, dependency2 }) => {
+  // Private state/functions inside closure
+  const privateState = {};
+  
+  const privateFunction = () => {
+    // Implementation
+  };
+
+  // Return public API
+  return {
+    publicMethod1: () => {
+      // Implementation using privateState/privateFunction
+    },
+    publicMethod2: () => {
+      // Implementation
+    }
+  };
+};
+
+// ❌ Incorrect - Never use classes
+export class MyService {
+  constructor(dependency1, dependency2) {
+    // This pattern is forbidden
+  }
+}
+```
+
+## Quotes and Semicolons
+- Always use double quotes for strings
+- Always include semicolons at the end of statements
+
+## File Types
+- JavaScript (.js)
+- TypeScript (.ts)
+- TypeScript React (.tsx)
+- JavaScript React (.jsx)
+
+## Examples
+
+```javascript
+// ✅ Correct
+const message = "Hello world";
+const element = <div className="container">;
+
+// ❌ Incorrect
+const message = 'Hello world'
+const element = <div className='container'>
