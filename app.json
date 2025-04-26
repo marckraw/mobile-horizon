@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mrck.dev.horizon"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,9 +34,13 @@
         "projectId": "dd3394a4-c888-4668-974e-78bcf43f6019"
       }
     },
-    "runtimeVersion": "preview",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
     "updates": {
-      "url": "https://u.expo.dev/dd3394a4-c888-4668-974e-78bcf43f6019"
+      "url": "https://u.expo.dev/dd3394a4-c888-4668-974e-78bcf43f6019",
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
     }
   }
 }

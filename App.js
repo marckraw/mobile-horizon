@@ -1,20 +1,46 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import { StyleSheet, Text, View, Button, Alert, Platform } from "react-native";
 import * as Updates from "expo-updates";
 import { useEffect, useState } from "react";
 
 export default function App() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+  const [debugInfo, setDebugInfo] = useState({});
 
   useEffect(() => {
     checkForUpdate();
+    getDebugInfo();
   }, []);
+
+  async function getDebugInfo() {
+    try {
+      const updateCheckResult = await Updates.checkForUpdateAsync();
+      setDebugInfo({
+        isEmulator: Updates.isEmulator,
+        channel: Updates.channel,
+        runtimeVersion: Updates.runtimeVersion,
+        updateId: Updates.updateId,
+        createdAt: Updates.createdAt,
+        isEmbeddedLaunch: Updates.isEmbeddedLaunch,
+        checkResult: updateCheckResult,
+      });
+    } catch (error) {
+      console.error("Error getting debug info:", error);
+    }
+  }
 
   async function checkForUpdate() {
     try {
       setIsChecking(true);
+      setUpdateError(null);
+
+      console.log("Current channel:", Updates.channel);
+      console.log("Current runtime version:", Updates.runtimeVersion);
+
       const update = await Updates.checkForUpdateAsync();
+      console.log("Update check result:", update);
 
       if (update.isAvailable) {
         setUpdateAvailable(true);
@@ -26,11 +52,18 @@ export default function App() {
               text: "Update",
               onPress: async () => {
                 try {
-                  await Updates.fetchUpdateAsync();
+                  const result = await Updates.fetchUpdateAsync();
+                  console.log("Fetch result:", result);
                   await Updates.reloadAsync();
                 } catch (error) {
-                  Alert.alert("Error", "Failed to download the update.");
                   console.error("Error downloading update:", error);
+                  setUpdateError(
+                    "Failed to download the update: " + error.message
+                  );
+                  Alert.alert(
+                    "Error",
+                    "Failed to download the update. Please try again later."
+                  );
                 }
               },
             },
@@ -45,6 +78,7 @@ export default function App() {
       }
     } catch (error) {
       console.error("Error checking for updates:", error);
+      setUpdateError("Failed to check for updates: " + error.message);
       Alert.alert(
         "Error",
         "Failed to check for updates. Please try again later."
@@ -65,11 +99,30 @@ export default function App() {
           ? "Update available!"
           : "App is up to date"}
       </Text>
+      {updateError && <Text style={styles.error}>{updateError}</Text>}
       <Button
         title="Check for Updates"
         onPress={checkForUpdate}
         disabled={isChecking}
       />
+      <View style={styles.debugContainer}>
+        <Text style={styles.debugTitle}>Debug Info:</Text>
+        <Text style={styles.debugText}>
+          Channel: {debugInfo.channel || "unknown"}
+        </Text>
+        <Text style={styles.debugText}>
+          Runtime Version: {debugInfo.runtimeVersion || "unknown"}
+        </Text>
+        <Text style={styles.debugText}>
+          Update ID: {debugInfo.updateId || "none"}
+        </Text>
+        <Text style={styles.debugText}>
+          Is Emulator: {String(debugInfo.isEmulator)}
+        </Text>
+        <Text style={styles.debugText}>
+          Is Embedded Launch: {String(debugInfo.isEmbeddedLaunch)}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -84,5 +137,28 @@ const styles = StyleSheet.create({
   status: {
     marginVertical: 20,
     color: "#666",
+  },
+  error: {
+    marginVertical: 10,
+    color: "red",
+    textAlign: "center",
+    paddingHorizontal: 20,
+  },
+  debugContainer: {
+    marginTop: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+  },
+  debugTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  debugText: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 5,
   },
 });
