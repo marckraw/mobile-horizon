@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -27,7 +27,8 @@
       "package": "com.mrck.dev.horizon"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {
@@ -42,6 +43,9 @@
       "checkAutomatically": "ON_LOAD",
       "channel": "preview"
     },
-    "channel": "preview"
+    "channel": "preview",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
