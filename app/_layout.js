@@ -1,3 +1,4 @@
+import "../global.css"; // Import the global CSS file
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

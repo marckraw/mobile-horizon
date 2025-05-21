@@ -15,9 +15,13 @@ export default function HomeScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to MobileHorizon!</Text>
-      <Text style={styles.subtitle}>Home Screen - Data from Grid:</Text>
+    <View className="flex-1 justify-center items-center p-5 bg-slate-100">
+      <Text className="text-3xl font-bold mb-2 text-slate-800">
+        Welcome to MobileHorizon!
+      </Text>
+      <Text className="text-lg text-gray-600 mb-5">
+        Home Screen - Data from Grid:
+      </Text>
 
       <View style={styles.linkContainer}>
         <Link href="/updates" style={styles.link}>
@@ -46,7 +50,7 @@ export default function HomeScreen() {
       )}
 
       {!isLoading && !data && !isError && (
-        <Text style={styles.noDataText}>
+        <Text className="text-base text-gray-500 text-center">
           No data to display yet. (Or API endpoint /some-endpoint is not yet
           implemented)
         </Text>
@@ -56,27 +60,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "gray",
-    marginBottom: 20,
-  },
   errorContainer: {
     alignItems: "center",
     backgroundColor: "#ffe0e0",
     padding: 15,
     borderRadius: 8,
+    marginVertical: 10,
   },
   errorText: {
     fontSize: 16,
@@ -102,20 +91,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
   },
-  noDataText: {
-    fontSize: 16,
-    color: "#888",
-    textAlign: "center",
-  },
   linkContainer: {
-    // Styles for the link container
     marginVertical: 15,
     padding: 10,
     backgroundColor: "#e0e0e0",
     borderRadius: 5,
   },
   link: {
-    // Styles for the link text
     fontSize: 16,
     color: "blue",
     textDecorationLine: "underline",
