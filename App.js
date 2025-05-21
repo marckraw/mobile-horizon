@@ -122,6 +122,7 @@ export default function App() {
         disabled={isChecking}
       />
       <View style={styles.debugContainer}>
+        <Text style={styles.debugTitle}>Soemthing added:</Text>
         <Text style={styles.debugTitle}>Debug Info:</Text>
         <Text style={styles.debugText}>
           Channel: {debugInfo.channel || "unknown"}
