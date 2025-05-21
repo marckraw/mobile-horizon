@@ -7,7 +7,7 @@ export default function SettingsScreen() {
         App Settings
       </Text>
 
-      {/* We will add setting components here */}
+      {/* TODO: replace placeholder with real settings component */}
       <View className="mb-4 p-4 bg-white rounded-lg shadow">
         <Text className="text-lg font-semibold text-gray-700">
           Placeholder Setting 1
