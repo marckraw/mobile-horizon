@@ -26,11 +26,14 @@ yarn-debug.*
 yarn-error.*
 
 # macOS
+.vscode
+.editor
 .DS_Store
 *.pem
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
