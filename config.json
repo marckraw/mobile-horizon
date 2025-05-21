@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "MobileHorizon",
+    "slug": "MobileHorizon",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mrck.dev.horizon",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mrck.dev.horizon"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dd3394a4-c888-4668-974e-78bcf43f6019"
+      }
+    },
+    "runtimeVersion": "preview",
+    "updates": {
+      "url": "https://u.expo.dev/dd3394a4-c888-4668-974e-78bcf43f6019",
+      "enabled": true,
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD",
+      "channel": "preview"
+    },
+    "channel": "preview"
+  }
+}
