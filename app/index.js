@@ -24,8 +24,11 @@ export default function HomeScreen() {
       </Text>
 
       <View style={styles.linkContainer}>
-        <Link href="/updates" style={styles.link}>
+        <Link href="/updates" style={styles.link} className="mb-2">
           Go to OTA Updates Screen
+        </Link>
+        <Link href="/settings" style={styles.link}>
+          Go to Settings
         </Link>
       </View>
 

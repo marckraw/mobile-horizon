@@ -11,6 +11,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ title: "Home" }} />
         <Stack.Screen name="updates" options={{ title: "OTA Updates" }} />
+        <Stack.Screen name="settings" options={{ title: "Settings" }} />
       </Stack>
     </QueryClientProvider>
   );
