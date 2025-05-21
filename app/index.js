@@ -27,6 +27,9 @@ export default function HomeScreen() {
         <Link href="/updates" style={styles.link}>
           Go to OTA Updates Screen
         </Link>
+        <Link href="/settings" style={styles.link}>
+          Go to Settings
+        </Link>
       </View>
 
       {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
