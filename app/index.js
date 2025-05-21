@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   Button,
 } from "react-native";
-import { useSomeData } from "../../src/hooks/useSomeData"; // Adjusted path
+import { useSomeData } from "../src/hooks/useSomeData"; // Adjusted path
 import { Link } from "expo-router"; // Import Link
 
 export default function HomeScreen() {
