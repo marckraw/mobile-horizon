@@ -2,33 +2,37 @@
     {
         "id": "1",
         "name": "Drink Water",
-        "frequency": "Daily",
-        "goal": "8 glasses",
-        "progress": 0,
-        "lastLogged": null
+        "target": 100,
+        "progress": 75,
+        "streak": 3,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
     },
     {
         "id": "2",
         "name": "Exercise",
-        "frequency": "Daily",
-        "goal": "30 minutes",
-        "progress": 0,
-        "lastLogged": null
+        "target": 100,
+        "progress": 50,
+        "streak": 5,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
     },
     {
         "id": "3",
         "name": "Read",
-        "frequency": "Daily",
-        "goal": "20 pages",
-        "progress": 0,
-        "lastLogged": null
+        "target": 100,
+        "progress": 100,
+        "streak": 7,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
     },
     {
         "id": "4",
         "name": "Meditate",
-        "frequency": "Daily",
-        "goal": "10 minutes",
-        "progress": 0,
-        "lastLogged": null
+        "target": 100,
+        "progress": 25,
+        "streak": 2,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
     }
 ]
