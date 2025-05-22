@@ -8,14 +8,7 @@ import {
 import { useSomeData } from "../src/hooks/useSomeData"; // Adjusted path
 import { Link } from "expo-router"; // Import Link
 import DailyAnchorCard from "../src/components/DailyAnchorCard";
-import {
-  requestNotificationPermission,
-  sendExampleNotification,
-} from "../src/utils/notifications";
 export default function HomeScreen() {
-  useEffect(() => {
-    requestNotificationPermission();
-  }, []);
   // Example: Pass some parameters to the hook if needed
   const { data, isLoading, isError, error, refetch } = useSomeData({
     mock: true,
@@ -23,18 +16,6 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 justify-center items-center p-5 bg-slate-100">
-      <View className="flex-1 justify-center items-center bg-black px-4">
-        <Text className="text-white text-lg mb-4">Test Notification</Text>
-
-        <Pressable
-          className="bg-lime-600 rounded-xl px-4 py-3"
-          onPress={sendExampleNotification}
-        >
-          <Text className="text-white text-base">
-            📩 Send Example Notification
-          </Text>
-        </Pressable>
-      </View>
       <DailyAnchorCard />
       <Text className="text-3xl font-bold mb-2 text-slate-800">
         Welcome to MobileHorizon!
