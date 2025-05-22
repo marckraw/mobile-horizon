@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useSomeData } from "../src/hooks/useSomeData"; // Adjusted path
 import { Link } from "expo-router"; // Import Link
+import DailyAnchorCard from "../src/components/DailyAnchorCard";
 
 export default function HomeScreen() {
   // Example: Pass some parameters to the hook if needed
@@ -16,6 +17,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 justify-center items-center p-5 bg-slate-100">
+      <DailyAnchorCard />
       <Text className="text-3xl font-bold mb-2 text-slate-800">
         Welcome to MobileHorizon!
       </Text>
