@@ -30,6 +30,9 @@ export default function HomeScreen() {
         <Link href="/settings" style={styles.link}>
           Go to Settings
         </Link>
+        <Link href="/about" style={styles.link}>
+          Go to About
+        </Link>
       </View>
 
       {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
