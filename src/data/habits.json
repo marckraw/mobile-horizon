@@ -1,0 +1,34 @@
+[
+    {
+        "id": "1",
+        "name": "Drink Water",
+        "frequency": "Daily",
+        "goal": "8 glasses",
+        "progress": 0,
+        "lastLogged": null
+    },
+    {
+        "id": "2",
+        "name": "Exercise",
+        "frequency": "Daily",
+        "goal": "30 minutes",
+        "progress": 0,
+        "lastLogged": null
+    },
+    {
+        "id": "3",
+        "name": "Read",
+        "frequency": "Daily",
+        "goal": "20 pages",
+        "progress": 0,
+        "lastLogged": null
+    },
+    {
+        "id": "4",
+        "name": "Meditate",
+        "frequency": "Daily",
+        "goal": "10 minutes",
+        "progress": 0,
+        "lastLogged": null
+    }
+]
