@@ -47,7 +47,7 @@ const CardContainer = ({ children, className }) => (
 );
 
 export default function HomeScreen() {
-  const dots = Array.from({ length: 42 });
+  const dots = Array.from({ length: DOTS_COUNT });
   const intensities = ["bg-gray-600", "bg-gray-500", "bg-gray-400", "bg-gray-700"];
 
   return (
