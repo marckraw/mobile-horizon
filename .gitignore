@@ -27,6 +27,7 @@ yarn-error.*
 
 # macOS
 .vscode
+.idea
 .editor
 .DS_Store
 *.pem

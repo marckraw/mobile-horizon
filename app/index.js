@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Svg, Circle } from "react-native-svg";
+import DailyAnchorCard from "../src/components/DailyAnchorCard";
 
 const ProgressCircle = ({
   progress = 0.6,
@@ -72,6 +73,7 @@ export default function HomeScreen() {
     >
       {/* Header */}
       <View className="flex-row justify-between items-center mb-6">
+          <DailyAnchorCard />
         <Text className="text-3xl font-bold text-white">Workouts</Text>
         <View className="flex-row space-x-3">
           <TouchableOpacity className="w-10 h-10 rounded-full bg-gray-700 justify-center items-center">
