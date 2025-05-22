@@ -1,16 +1,24 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { Svg, Circle } from 'react-native-svg';
+import React from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import { Svg, Circle } from "react-native-svg";
 
-const ProgressCircle = ({ progress = 0.6, number = 1, size = 40, strokeWidth = 4 }) => {
+const ProgressCircle = ({
+  progress = 0.6,
+  number = 1,
+  size = 40,
+  strokeWidth = 4,
+}) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - circumference * progress;
 
   return (
-    <View style={{ width: size, height: size }} className="justify-center items-center">
+    <View
+      style={{ width: size, height: size }}
+      className="justify-center items-center"
+    >
       <Svg width={size} height={size}>
         <Circle
           stroke="#555"
@@ -46,12 +54,22 @@ const CardContainer = ({ children, className }) => (
   </LinearGradient>
 );
 
+const DOTS_COUNT = 42;
+
 export default function HomeScreen() {
   const dots = Array.from({ length: DOTS_COUNT });
-  const intensities = ["bg-gray-600", "bg-gray-500", "bg-gray-400", "bg-gray-700"];
+  const intensities = [
+    "bg-gray-600",
+    "bg-gray-500",
+    "bg-gray-400",
+    "bg-gray-700",
+  ];
 
   return (
-    <ScrollView className="flex-1 bg-black px-4 pt-10" showsVerticalScrollIndicator={false}>
+    <ScrollView
+      className="flex-1 bg-black px-4 pt-10"
+      showsVerticalScrollIndicator={false}
+    >
       {/* Header */}
       <View className="flex-row justify-between items-center mb-6">
         <Text className="text-3xl font-bold text-white">Workouts</Text>
@@ -82,7 +100,9 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <Text className="text-white font-bold text-lg">Body weight</Text>
           <Text className="text-gray-400">31 min ago</Text>
-          <Text className="text-white text-3xl font-extrabold mt-2">190 lbs</Text>
+          <Text className="text-white text-3xl font-extrabold mt-2">
+            190 lbs
+          </Text>
         </CardContainer>
       </View>
 
@@ -105,7 +125,9 @@ export default function HomeScreen() {
           {dots.map((_, i) => (
             <View
               key={i}
-              className={`w-3 h-3 m-1 rounded-full ${intensities[i % intensities.length]}`}
+              className={`w-3 h-3 m-1 rounded-full ${
+                intensities[i % intensities.length]
+              }`}
             />
           ))}
         </View>
