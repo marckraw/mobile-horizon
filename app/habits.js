@@ -16,7 +16,7 @@ import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function HabitsScreen() {
-  const { data: habits = [], isLoading, error } = useHabits();
+  const { data: habits = [], isLoading, error, refetch } = useHabits();
   const deleteHabitMutation = useDeleteHabit();
   const logProgressMutation = useLogHabitProgress();
 
@@ -58,6 +58,14 @@ export default function HabitsScreen() {
     await handleLogProgress(habitId, 100);
   };
 
+  const handleRetry = async () => {
+    try {
+      await refetch();
+    } catch (error) {
+      Alert.alert("Error", "Failed to retry. Please check your connection.");
+    }
+  };
+
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-100">
@@ -77,7 +85,7 @@ export default function HabitsScreen() {
         <Text className="text-red-400 text-center mt-2">{error.message}</Text>
         <TouchableOpacity
           className="mt-4 bg-blue-500 px-6 py-3 rounded-lg"
-          onPress={() => window.location.reload()} // Temporary reload solution
+          onPress={handleRetry}
         >
           <Text className="text-white font-medium">Retry</Text>
         </TouchableOpacity>
