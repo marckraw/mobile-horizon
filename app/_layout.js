@@ -2,10 +2,17 @@ import "../global.css";
 import { Tabs } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect } from "react";
+import { updateService } from "../src/services/updateService";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  useEffect(() => {
+    // Check for updates when app launches
+    updateService.checkForUpdatesOnStartup();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Tabs
