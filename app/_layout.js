@@ -12,9 +12,7 @@ export default function RootLayout() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
             let iconName = "grid"; // Default icon
-            if (route.name === "updates") {
-              iconName = "calendar";
-            } else if (route.name === "settings") {
+            if (route.name === "settings") {
               iconName = "settings";
             } else if (route.name === "about") {
               iconName = "information-circle";
@@ -27,7 +25,6 @@ export default function RootLayout() {
       >
         <Tabs.Screen name="index" options={{ title: "Home" }} />
         <Tabs.Screen name="habits" options={{ title: "Habits" }} />
-        <Tabs.Screen name="updates" options={{ title: "OTA Updates" }} />
         <Tabs.Screen name="settings" options={{ title: "Settings" }} />
         <Tabs.Screen name="about" options={{ title: "About" }} />
       </Tabs>
