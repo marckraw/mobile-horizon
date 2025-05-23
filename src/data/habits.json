@@ -1,0 +1,38 @@
+[
+    {
+        "id": "1",
+        "name": "Drink Water",
+        "target": 100,
+        "progress": 75,
+        "streak": 3,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
+    },
+    {
+        "id": "2",
+        "name": "Exercise",
+        "target": 100,
+        "progress": 50,
+        "streak": 5,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
+    },
+    {
+        "id": "3",
+        "name": "Read",
+        "target": 100,
+        "progress": 100,
+        "streak": 7,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
+    },
+    {
+        "id": "4",
+        "name": "Meditate",
+        "target": 100,
+        "progress": 25,
+        "streak": 2,
+        "createdAt": "2024-03-20T10:00:00Z",
+        "updatedAt": "2024-03-20T10:00:00Z"
+    }
+]
