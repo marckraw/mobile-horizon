@@ -4,11 +4,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import { updateService } from "../src/services/updateService";
+import { setAuthToken } from "../src/api/index";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   useEffect(() => {
+    // Set up authentication for API requests
+    // In a real app, you would get this token from secure storage or user login
+    // For now, we'll use a placeholder - you should replace this with your actual API key
+    const apiKey = "your-api-key-here"; // Replace with your actual API key
+    setAuthToken(apiKey);
+
     // Check for updates when app launches
     updateService.checkForUpdatesOnStartup();
   }, []);

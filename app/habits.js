@@ -7,23 +7,31 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { useHabits } from "../src/hooks/useHabits";
+import {
+  useHabits,
+  useDeleteHabit,
+  useLogHabitProgress,
+} from "../src/hooks/useHabits";
 import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function HabitsScreen() {
   const { data: habits = [], isLoading, error } = useHabits();
+  const deleteHabitMutation = useDeleteHabit();
+  const logProgressMutation = useLogHabitProgress();
 
   const [editingHabitId, setEditingHabitId] = useState(null);
-  const [progressUpdatingHabitId, setProgressUpdatingHabitId] = useState(null);
 
   const handleLogProgress = async (habitId, progress) => {
-    setProgressUpdatingHabitId(habitId);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setProgressUpdatingHabitId(null);
-    // In the future, this will call the actual API
-    console.log(`Logged progress for habit ${habitId}: ${progress}%`);
+    try {
+      await logProgressMutation.mutateAsync({
+        habitId,
+        progress: Math.round(progress),
+        date: null, // Use current date
+      });
+    } catch (error) {
+      Alert.alert("Error", `Failed to log progress: ${error.message}`);
+    }
   };
 
   const handleDeleteHabit = async (habitId) => {
@@ -36,10 +44,11 @@ export default function HabitsScreen() {
         text: "Delete",
         style: "destructive",
         onPress: async () => {
-          // Simulate API call
-          await new Promise((resolve) => setTimeout(resolve, 500));
-          // In the future, this will call the actual API
-          console.log(`Deleted habit ${habitId}`);
+          try {
+            await deleteHabitMutation.mutateAsync(habitId);
+          } catch (error) {
+            Alert.alert("Error", `Failed to delete habit: ${error.message}`);
+          }
         },
       },
     ]);
@@ -52,7 +61,8 @@ export default function HabitsScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-100">
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#3b82f6" />
+        <Text className="mt-4 text-gray-600">Loading habits...</Text>
       </View>
     );
   }
@@ -60,15 +70,30 @@ export default function HabitsScreen() {
   if (error) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-100 p-4">
-        <Text className="text-red-500 text-center">
-          Error loading habits: {error.message}
+        <Ionicons name="alert-circle" size={48} color="#ef4444" />
+        <Text className="text-red-500 text-center mt-4 text-lg font-semibold">
+          Error loading habits
         </Text>
+        <Text className="text-red-400 text-center mt-2">{error.message}</Text>
+        <TouchableOpacity
+          className="mt-4 bg-blue-500 px-6 py-3 rounded-lg"
+          onPress={() => window.location.reload()} // Temporary reload solution
+        >
+          <Text className="text-white font-medium">Retry</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
-  const completedToday = habits.filter((h) => h.progress === 100).length;
-  const longestStreak = Math.max(0, ...habits.map((h) => h.streak || 0));
+  // Calculate statistics - handle potential data structure differences
+  const completedToday = habits.filter((h) => {
+    // Assuming the backend might return different progress structures
+    const progress = h.progress || h.todayProgress || 0;
+    return progress >= 100;
+  }).length;
+
+  const longestStreak =
+    habits.length > 0 ? Math.max(0, ...habits.map((h) => h.streak || 0)) : 0;
 
   return (
     <ScrollView className="flex-1 bg-gray-100">
@@ -99,77 +124,121 @@ export default function HabitsScreen() {
         </View>
 
         {/* Habits List */}
-        <View className="space-y-4">
-          {habits.map((habit) => (
-            <View key={habit.id} className="bg-white rounded-lg p-4 shadow-sm">
-              <View className="flex-row justify-between items-start mb-3">
-                <View>
-                  <Text className="text-lg font-semibold text-gray-800">
-                    {habit.name}
-                  </Text>
-                  <Text className="text-sm text-gray-500">
-                    Target: {habit.target}%
-                  </Text>
-                </View>
-                <View className="flex-row items-center">
-                  {habit.streak > 0 && (
-                    <View className="bg-amber-100 px-2 py-1 rounded-full mr-2">
-                      <Text className="text-xs text-amber-700 font-medium">
-                        🔥 {habit.streak} day{habit.streak > 1 ? "s" : ""}
+        {habits.length === 0 ? (
+          <View className="bg-white rounded-lg p-8 items-center">
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={48}
+              color="#9CA3AF"
+            />
+            <Text className="text-gray-500 text-lg font-medium mt-4">
+              No habits yet
+            </Text>
+            <Text className="text-gray-400 text-center mt-2">
+              Create your first habit to start tracking your progress
+            </Text>
+          </View>
+        ) : (
+          <View className="space-y-4">
+            {habits.map((habit) => {
+              // Handle potential data structure differences from backend
+              const habitProgress = habit.progress || habit.todayProgress || 0;
+              const habitTarget = habit.target || 100;
+              const habitStreak = habit.streak || 0;
+              const habitName = habit.name || "Unknown Habit";
+              const habitId = habit.id || habit._id;
+
+              return (
+                <View
+                  key={habitId}
+                  className="bg-white rounded-lg p-4 shadow-sm"
+                >
+                  <View className="flex-row justify-between items-start mb-3">
+                    <View>
+                      <Text className="text-lg font-semibold text-gray-800">
+                        {habitName}
+                      </Text>
+                      <Text className="text-sm text-gray-500">
+                        Target: {habitTarget}%
                       </Text>
                     </View>
-                  )}
+                    <View className="flex-row items-center">
+                      {habitStreak > 0 && (
+                        <View className="bg-amber-100 px-2 py-1 rounded-full mr-2">
+                          <Text className="text-xs text-amber-700 font-medium">
+                            🔥 {habitStreak} day{habitStreak > 1 ? "s" : ""}
+                          </Text>
+                        </View>
+                      )}
+                      <TouchableOpacity
+                        onPress={() => handleDeleteHabit(habitId)}
+                        className="ml-2"
+                        disabled={deleteHabitMutation.isPending}
+                      >
+                        <Ionicons
+                          name="trash-outline"
+                          size={20}
+                          color={
+                            deleteHabitMutation.isPending
+                              ? "#9CA3AF"
+                              : "#ef4444"
+                          }
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  <View className="flex-row items-center space-x-3 mb-2">
+                    <Slider
+                      className="flex-1 h-10"
+                      minimumValue={0}
+                      maximumValue={habitTarget}
+                      value={habitProgress}
+                      onValueChange={(value) =>
+                        handleLogProgress(habitId, value)
+                      }
+                      disabled={logProgressMutation.isPending}
+                      minimumTrackTintColor={
+                        habitProgress >= habitTarget ? "#22c55e" : "#3b82f6"
+                      }
+                      maximumTrackTintColor="#e5e7eb"
+                    />
+                    <Text className="text-sm font-medium text-gray-600 w-12 text-right">
+                      {Math.round(habitProgress)}%
+                    </Text>
+                  </View>
+
                   <TouchableOpacity
-                    onPress={() => handleDeleteHabit(habit.id)}
-                    className="ml-2"
+                    onPress={() => handleCompleteClick(habitId)}
+                    disabled={
+                      logProgressMutation.isPending ||
+                      habitProgress >= habitTarget
+                    }
+                    className={`mt-2 p-2 rounded-md ${
+                      habitProgress >= habitTarget
+                        ? "bg-green-100"
+                        : "bg-blue-100"
+                    } ${logProgressMutation.isPending ? "opacity-50" : ""}`}
                   >
-                    <Ionicons name="trash-outline" size={20} color="#ef4444" />
+                    <Text
+                      className={`text-center font-medium ${
+                        habitProgress >= habitTarget
+                          ? "text-green-700"
+                          : "text-blue-700"
+                      }`}
+                    >
+                      {logProgressMutation.isPending
+                        ? "Logging..."
+                        : habitProgress >= habitTarget
+                        ? "Completed"
+                        : "Mark Complete"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
-              </View>
-
-              <View className="flex-row items-center space-x-3 mb-2">
-                <Slider
-                  className="flex-1 h-10"
-                  minimumValue={0}
-                  maximumValue={100}
-                  value={habit.progress}
-                  onValueChange={(value) => handleLogProgress(habit.id, value)}
-                  disabled={progressUpdatingHabitId === habit.id}
-                  minimumTrackTintColor={
-                    habit.progress === 100 ? "#22c55e" : "#3b82f6"
-                  }
-                  maximumTrackTintColor="#e5e7eb"
-                />
-                <Text className="text-sm font-medium text-gray-600 w-12 text-right">
-                  {habit.progress}%
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => handleCompleteClick(habit.id)}
-                disabled={
-                  progressUpdatingHabitId === habit.id || habit.progress === 100
-                }
-                className={`mt-2 p-2 rounded-md ${
-                  habit.progress === 100 ? "bg-green-100" : "bg-blue-100"
-                }`}
-              >
-                <Text
-                  className={`text-center font-medium ${
-                    habit.progress === 100 ? "text-green-700" : "text-blue-700"
-                  }`}
-                >
-                  {progressUpdatingHabitId === habit.id
-                    ? "Logging..."
-                    : habit.progress === 100
-                    ? "Completed"
-                    : "Mark Complete"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+              );
+            })}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
