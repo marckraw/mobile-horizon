@@ -4,11 +4,20 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import { updateService } from "../src/services/updateService";
+import { setAuthToken, API_KEY } from "../src/api/index";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   useEffect(() => {
+    // Set up authentication for API requests using environment variable
+    if (API_KEY) {
+      setAuthToken(API_KEY);
+      console.log("API token set from environment variables");
+    } else {
+      console.warn("EXPO_PUBLIC_API_KEY not found in environment variables");
+    }
+
     // Check for updates when app launches
     updateService.checkForUpdatesOnStartup();
   }, []);

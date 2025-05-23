@@ -46,7 +46,7 @@ jobs:
           echo "Update message: ${{ github.event.inputs.update_message }}"
 
           if [ "${{ github.event.inputs.deploy_type }}" = "ota" ]; then
-            eas update --branch ${{ github.event.inputs.release_channel }} --non-interactive --message "${{ github.event.inputs.update_message }}"
+            eas update --branch ${{ github.event.inputs.release_channel }} --environment ${{ github.event.inputs.release_channel }} --non-interactive --message "${{ github.event.inputs.update_message }}"
           else
             eas build -p ios --profile ${{ github.event.inputs.release_channel }} --non-interactive
           fi
