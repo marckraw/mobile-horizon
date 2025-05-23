@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, Alert, Platform } from "react-native";
+import { Text, View, Button, Alert } from "react-native";
 import * as Updates from "expo-updates";
 import { useEffect, useState } from "react";
 
@@ -122,135 +122,76 @@ export default function UpdatesScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
-        OTA Update Management
-      </Text>
+    <View className="flex-1 bg-white items-center justify-center p-5">
+      <Text className="text-lg font-bold mb-2.5">OTA Update Management</Text>
       {/* This is the visual confirmation box from the original App.js */}
-      <View
-        style={{
-          marginVertical: 10,
-          padding: 15,
-          backgroundColor: "#ffeecc",
-          borderRadius: 5,
-          width: "90%",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            color: "black",
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
+      <View className="my-2.5 p-4 bg-yellow-100 rounded w-[90%]">
+        <Text className="text-lg text-black text-center font-bold">
           🎉 This is the NEW OTA Update! 🎉
         </Text>
-        <Text
-          style={{
-            marginTop: 8,
-            fontSize: 14,
-            color: "gray",
-            textAlign: "center",
-          }}
-        >
+        <Text className="mt-2 text-sm text-gray-500 text-center">
           If you see this box, OTA updates are working!
         </Text>
       </View>
       <StatusBar style="auto" />
-      <Text style={styles.status}>
+      <Text className="my-4 text-gray-600 text-base">
         {isChecking
           ? "Checking for updates..."
           : updateAvailable
           ? "Update available! Check alert prompt."
           : "App is up to date (or no new update found)"}
       </Text>
-      {updateError && <Text style={styles.error}>{updateError}</Text>}
+      {updateError && (
+        <Text className="my-2.5 text-red-500 text-center px-5">
+          {updateError}
+        </Text>
+      )}
       <Button
         title={isChecking ? "Checking..." : "Check for Updates Manually"}
         onPress={checkForUpdate}
         disabled={isChecking}
       />
-      <View style={styles.debugContainer}>
-        <Text style={styles.debugTitle}>Debug Info (expo-updates):</Text>
-        <Text style={styles.debugText}>
+      <View className="mt-5 p-4 border border-gray-300 rounded-lg w-[90%] bg-gray-50">
+        <Text className="text-base font-bold mb-2.5">
+          Debug Info (expo-updates):
+        </Text>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Channel: {Updates.channel || "unknown"}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Runtime Version: {Updates.runtimeVersion || "unknown"}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Update ID: {Updates.updateId || "none"}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Created At:{" "}
           {Updates.createdAt
             ? new Date(Updates.createdAt).toLocaleString()
             : "N/A"}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Is Emulator: {String(Updates.isEmulator)}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Is Embedded Launch: {String(Updates.isEmbeddedLaunch)}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Update Available (from hook): {String(updateAvailable)}
         </Text>
-        <Text style={styles.debugText}>
+        <Text className="text-xs text-gray-800 mb-1 font-mono">
           Last Check Result (isAvailable):{" "}
           {debugInfo.isUpdateAvailable !== undefined
             ? String(debugInfo.isUpdateAvailable)
             : "N/A"}
         </Text>
         {debugInfo.errorGettingInfo && (
-          <Text style={styles.error}>
+          <Text className="my-2.5 text-red-500 text-center px-5">
             Error getting debug: {debugInfo.errorGettingInfo}
           </Text>
         )}
-        {/* <Text style={styles.debugText}>Manifest: {debugInfo.manifest}</Text> */}
+        {/* <Text className="text-xs text-gray-800 mb-1 font-mono">Manifest: {debugInfo.manifest}</Text> */}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  status: {
-    marginVertical: 15,
-    color: "#666",
-    fontSize: 16,
-  },
-  error: {
-    marginVertical: 10,
-    color: "red",
-    textAlign: "center",
-    paddingHorizontal: 20,
-  },
-  debugContainer: {
-    marginTop: 20,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    width: "90%",
-    backgroundColor: "#f9f9f9",
-  },
-  debugTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  debugText: {
-    fontSize: 12,
-    color: "#333",
-    marginBottom: 5,
-    fontFamily: Platform.OS === "ios" ? "Courier New" : "monospace",
-  },
-});

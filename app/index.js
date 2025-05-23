@@ -17,8 +17,8 @@ const ProgressCircle = ({
 
   return (
     <View
-      style={{ width: size, height: size }}
       className="justify-center items-center"
+      style={{ width: size, height: size }}
     >
       <Svg width={size} height={size}>
         <Circle
@@ -73,7 +73,7 @@ export default function HomeScreen() {
     >
       {/* Header */}
       <View className="flex-row justify-between items-center mb-6">
-          <DailyAnchorCard />
+        <DailyAnchorCard />
         <Text className="text-3xl font-bold text-white">Workouts</Text>
         <View className="flex-row space-x-3">
           <TouchableOpacity className="w-10 h-10 rounded-full bg-gray-700 justify-center items-center">

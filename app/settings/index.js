@@ -42,7 +42,7 @@ export default function SettingsScreen() {
             name={item.icon}
             size={24}
             color="#6B7280"
-            style={{ marginRight: 12 }}
+            className="mr-3"
           />
           <View className="flex-1">
             <Text className="text-lg font-semibold text-gray-700">

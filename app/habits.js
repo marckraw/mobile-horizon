@@ -130,7 +130,7 @@ export default function HabitsScreen() {
 
               <View className="flex-row items-center space-x-3 mb-2">
                 <Slider
-                  style={{ flex: 1, height: 40 }}
+                  className="flex-1 h-10"
                   minimumValue={0}
                   maximumValue={100}
                   value={habit.progress}
