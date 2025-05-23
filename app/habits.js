@@ -170,7 +170,7 @@ export default function HabitsScreen() {
             </Text>
           </View>
         ) : (
-          <View className="space-y-4">
+          <View>
             {habitsArray.map((habit) => {
               // Handle potential data structure differences from backend
               const habitProgress = habit.progress || habit.todayProgress || 0;
@@ -182,7 +182,7 @@ export default function HabitsScreen() {
               return (
                 <View
                   key={habitId}
-                  className="bg-white rounded-lg p-4 shadow-sm"
+                  className="bg-white rounded-lg p-4 shadow-sm mb-4"
                 >
                   <View className="flex-row justify-between items-start mb-3">
                     <View className="flex-1">
