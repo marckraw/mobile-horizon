@@ -9,6 +9,10 @@
       "distribution": "internal",
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "EXPO_PUBLIC_API_KEY",
+        "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL"
       }
     },
     "preview": {
@@ -19,6 +23,10 @@
       },
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "EXPO_PUBLIC_API_KEY",
+        "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL"
       }
     },
     "production": {
@@ -26,7 +34,11 @@
       "ios": {
         "simulator": false
       },
-      "android": {}
+      "android": {},
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "EXPO_PUBLIC_API_KEY",
+        "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL"
+      }
     }
   },
   "submit": {

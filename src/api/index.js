@@ -1,7 +1,10 @@
 import axios from "axios";
 
-// Backend API base URL from your Postman collection
-const API_BASE_URL = "https://hq-thegrid-production-c370.up.railway.app";
+// Backend API base URL and API key from environment variables
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL ||
+  "https://hq-thegrid-production-c370.up.railway.app";
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -56,8 +59,6 @@ apiClient.interceptors.response.use(
   }
 );
 
-// Add more API functions here as needed:
-// export const postSomeData = async (data) => { ... };
-// export const updateSomeData = async (id, data) => { ... };
-
+// Export the API key for use in initialization
+export { API_KEY };
 export default apiClient;
