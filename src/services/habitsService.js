@@ -24,12 +24,9 @@ export const createHabitsService = () => {
 
   // Public API - matches the actual backend endpoints
   return {
-    // Get all habits - GET /api/habits/
+    // Get all habits - GET /api/habits
     fetchHabits: async () => {
-      return makeApiRequest(
-        () => apiClient.get("/api/habits/"),
-        "fetch habits"
-      );
+      return makeApiRequest(() => apiClient.get("/api/habits"), "fetch habits");
     },
 
     // Get habit by ID - GET /api/habits/:habitId
@@ -40,11 +37,11 @@ export const createHabitsService = () => {
       );
     },
 
-    // Create a new habit - POST /api/habits/
+    // Create a new habit - POST /api/habits
     // Request body: { name: string, target: number }
     createHabit: async (habitData) => {
       return makeApiRequest(
-        () => apiClient.post("/api/habits/", habitData),
+        () => apiClient.post("/api/habits", habitData),
         "create habit"
       );
     },
