@@ -13,6 +13,12 @@ export default function SettingsScreen() {
       onPress: () => router.push("/settings/updates"),
     },
     {
+      title: "Environment Variables",
+      description: "View environment variables for debugging",
+      icon: "terminal",
+      onPress: () => router.push("/settings/environment"),
+    },
+    {
       title: "Placeholder Setting 1",
       description: "Description for setting 1",
       icon: "settings",

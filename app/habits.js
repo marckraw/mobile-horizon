@@ -12,7 +12,6 @@ import {
   useDeleteHabit,
   useLogHabitProgress,
 } from "../src/hooks/useHabits";
-import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function HabitsScreen() {
@@ -54,8 +53,10 @@ export default function HabitsScreen() {
     ]);
   };
 
-  const handleCompleteClick = async (habitId) => {
-    await handleLogProgress(habitId, 100);
+  const handleCompleteClick = async (habitId, progress, target) => {
+    // Toggle between 0% and 100% (target)
+    const newProgress = progress >= target ? 0 : target;
+    await handleLogProgress(habitId, newProgress);
   };
 
   const handleRetry = async () => {
@@ -94,21 +95,43 @@ export default function HabitsScreen() {
   }
 
   // Calculate statistics - handle potential data structure differences
-  const completedToday = habits.filter((h) => {
+  // Ensure habits is always an array to prevent filter/map errors
+  const habitsArray = Array.isArray(habits) ? habits : [];
+
+  const completedToday = habitsArray.filter((h) => {
     // Assuming the backend might return different progress structures
     const progress = h.progress || h.todayProgress || 0;
     return progress >= 100;
   }).length;
 
   const longestStreak =
-    habits.length > 0 ? Math.max(0, ...habits.map((h) => h.streak || 0)) : 0;
+    habitsArray.length > 0
+      ? Math.max(0, ...habitsArray.map((h) => h.streak || 0))
+      : 0;
 
   return (
     <ScrollView className="flex-1 bg-gray-100">
       <View className="p-4">
-        <Text className="text-3xl font-bold mb-6 text-gray-800">
-          Habits Tracker
-        </Text>
+        <View className="flex-row justify-between items-center mb-6">
+          <Text className="text-3xl font-bold text-gray-800">
+            Habits Tracker
+          </Text>
+          <TouchableOpacity
+            onPress={handleRetry}
+            className="bg-blue-500 px-4 py-2 rounded-lg flex-row items-center"
+            disabled={isLoading}
+          >
+            <Ionicons
+              name="refresh"
+              size={16}
+              color="white"
+              style={{ marginRight: 6 }}
+            />
+            <Text className="text-white font-medium">
+              {isLoading ? "Loading..." : "Refresh"}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Statistics Card */}
         <View className="bg-white rounded-lg p-4 mb-6 shadow-sm">
@@ -118,7 +141,7 @@ export default function HabitsScreen() {
           <View className="space-y-2">
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Total Habits:</Text>
-              <Text className="font-medium">{habits.length}</Text>
+              <Text className="font-medium">{habitsArray.length}</Text>
             </View>
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Completed Today:</Text>
@@ -132,7 +155,7 @@ export default function HabitsScreen() {
         </View>
 
         {/* Habits List */}
-        {habits.length === 0 ? (
+        {habitsArray.length === 0 ? (
           <View className="bg-white rounded-lg p-8 items-center">
             <Ionicons
               name="checkmark-circle-outline"
@@ -148,7 +171,7 @@ export default function HabitsScreen() {
           </View>
         ) : (
           <View className="space-y-4">
-            {habits.map((habit) => {
+            {habitsArray.map((habit) => {
               // Handle potential data structure differences from backend
               const habitProgress = habit.progress || habit.todayProgress || 0;
               const habitTarget = habit.target || 100;
@@ -162,12 +185,13 @@ export default function HabitsScreen() {
                   className="bg-white rounded-lg p-4 shadow-sm"
                 >
                   <View className="flex-row justify-between items-start mb-3">
-                    <View>
+                    <View className="flex-1">
                       <Text className="text-lg font-semibold text-gray-800">
                         {habitName}
                       </Text>
                       <Text className="text-sm text-gray-500">
-                        Target: {habitTarget}%
+                        Target: {habitTarget}% • Progress:{" "}
+                        {Math.round(habitProgress)}%
                       </Text>
                     </View>
                     <View className="flex-row items-center">
@@ -196,51 +220,67 @@ export default function HabitsScreen() {
                     </View>
                   </View>
 
-                  <View className="flex-row items-center space-x-3 mb-2">
-                    <Slider
-                      className="flex-1 h-10"
-                      minimumValue={0}
-                      maximumValue={habitTarget}
-                      value={habitProgress}
-                      onValueChange={(value) =>
-                        handleLogProgress(habitId, value)
-                      }
-                      disabled={logProgressMutation.isPending}
-                      minimumTrackTintColor={
-                        habitProgress >= habitTarget ? "#22c55e" : "#3b82f6"
-                      }
-                      maximumTrackTintColor="#e5e7eb"
-                    />
-                    <Text className="text-sm font-medium text-gray-600 w-12 text-right">
-                      {Math.round(habitProgress)}%
-                    </Text>
-                  </View>
-
                   <TouchableOpacity
-                    onPress={() => handleCompleteClick(habitId)}
-                    disabled={
-                      logProgressMutation.isPending ||
-                      habitProgress >= habitTarget
+                    onPress={() =>
+                      handleCompleteClick(habitId, habitProgress, habitTarget)
                     }
-                    className={`mt-2 p-2 rounded-md ${
+                    disabled={logProgressMutation.isPending}
+                    className={`p-4 rounded-lg flex-row items-center justify-between ${
                       habitProgress >= habitTarget
-                        ? "bg-green-100"
-                        : "bg-blue-100"
+                        ? "bg-green-100 border-2 border-green-300"
+                        : "bg-gray-100 border-2 border-gray-300"
                     } ${logProgressMutation.isPending ? "opacity-50" : ""}`}
                   >
-                    <Text
-                      className={`text-center font-medium ${
+                    <View className="flex-row items-center">
+                      <Ionicons
+                        name={
+                          habitProgress >= habitTarget
+                            ? "checkmark-circle"
+                            : "ellipse-outline"
+                        }
+                        size={24}
+                        color={
+                          habitProgress >= habitTarget ? "#059669" : "#6B7280"
+                        }
+                        style={{ marginRight: 12 }}
+                      />
+                      <View>
+                        <Text
+                          className={`font-semibold ${
+                            habitProgress >= habitTarget
+                              ? "text-green-700"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {logProgressMutation.isPending
+                            ? "Updating..."
+                            : habitProgress >= habitTarget
+                            ? "Completed Today"
+                            : "Mark as Complete"}
+                        </Text>
+                        <Text className="text-xs text-gray-500">
+                          Tap to{" "}
+                          {habitProgress >= habitTarget ? "undo" : "complete"}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      className={`px-3 py-1 rounded-full ${
                         habitProgress >= habitTarget
-                          ? "text-green-700"
-                          : "text-blue-700"
+                          ? "bg-green-200"
+                          : "bg-gray-200"
                       }`}
                     >
-                      {logProgressMutation.isPending
-                        ? "Logging..."
-                        : habitProgress >= habitTarget
-                        ? "Completed"
-                        : "Mark Complete"}
-                    </Text>
+                      <Text
+                        className={`text-sm font-bold ${
+                          habitProgress >= habitTarget
+                            ? "text-green-800"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        {Math.round(habitProgress)}%
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 </View>
               );

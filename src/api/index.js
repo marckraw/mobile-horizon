@@ -6,6 +6,9 @@ const API_BASE_URL =
   "https://hq-thegrid-production-c370.up.railway.app";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
+console.log("API_BASE_URL: ", API_BASE_URL);
+console.log("API_KEY: ", API_KEY);
+
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {

@@ -26,7 +26,12 @@ export const createHabitsService = () => {
   return {
     // Get all habits - GET /api/habits
     fetchHabits: async () => {
-      return makeApiRequest(() => apiClient.get("/api/habits"), "fetch habits");
+      const response = await makeApiRequest(
+        () => apiClient.get("/api/habits"),
+        "fetch habits"
+      );
+      // Extract the habits array from the response object
+      return response.habits || [];
     },
 
     // Get habit by ID - GET /api/habits/:habitId
